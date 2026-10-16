@@ -167,6 +167,54 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* ---------- currículo ---------- */
+  .cv {
+    margin: auto;
+    width: min(820px, 100% - 32px);
+    max-height: calc(100dvh - 32px);
+    padding: 0;
+    border: 1px solid var(--faint);
+    background: var(--screen);
+    color: var(--phosphor);
+    overflow: auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  .cv::backdrop { background: rgba(0, 0, 0, .8); }
+
+  .cv-bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 14px;
+    background: var(--screen);
+    border-bottom: 1px solid var(--faint);
+    font-size: 1.2rem;
+  }
+  .cv-close {
+    background: none;
+    border: 0;
+    color: var(--phosphor);
+    font: inherit;
+    text-shadow: inherit;
+    cursor: pointer;
+  }
+  .cv-close:hover, .cv-close:focus-visible { color: var(--screen); background: var(--accent); outline: none; }
+
+  .cv-page { position: relative; padding: 12px; }
+  .cv-page canvas { display: block; width: 100%; height: auto; pointer-events: none; }
+  .cv-shield { position: absolute; inset: 0; }
+
+  /* imprimir a página não imprime o currículo */
+  @media print {
+    body { display: none !important; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .name, .cursor { animation: none; }
   }
@@ -193,7 +241,7 @@
         <ul class="links">
           <li><a href="https://codeberg.org/DeathHapyness" target="_blank" rel="noopener noreferrer">codeberg</a></li>
           <li><a href="https://github.com/DeathHapyness" target="_blank" rel="noopener noreferrer">github</a></li>
-          <li><a href="CURRICULO.pdf" target="_blank" rel="noopener noreferrer">currículo</a></li>
+          <li><a href="#curriculo" id="open-cv">currículo</a></li>
         </ul>
       </section>
 
@@ -214,8 +262,18 @@
   </div>
 </div>
 
+<dialog class="cv" id="cv" aria-label="Currículo">
+  <div class="cv-bar">
+    <span class="cmd">rique@hub:~$ <b>view curriculo</b></span>
+    <button type="button" class="cv-close" aria-label="Fechar">[x]</button>
+  </div>
+  <div class="cv-page">
+    <canvas id="cv-canvas" role="img" aria-label="Currículo de Henrique — técnico de informática"></canvas>
+    <div class="cv-shield" aria-hidden="true"></div>
+  </div>
+</dialog>
+
 <script>
-  // matrix / irc / discord: clique copia o valor
   document.querySelectorAll("[data-copy]").forEach((btn) => {
     const original = btn.textContent;
     btn.addEventListener("click", async () => {
@@ -227,6 +285,46 @@
       }
       setTimeout(() => (btn.textContent = original), 1400);
     });
+  });
+
+  const cv = document.getElementById("cv");
+  const canvas = document.getElementById("cv-canvas");
+  let cvLoaded = false;
+
+  function drawCv() {
+    if (cvLoaded) return;
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      canvas.getContext("2d").drawImage(img, 0, 0);
+      cvLoaded = true;
+    };
+    img.src = "assets/cv.jpg";
+  }
+
+  function openCv(e) {
+    e?.preventDefault();
+    drawCv();
+    cv.showModal();
+  }
+
+  document.getElementById("open-cv").addEventListener("click", openCv);
+  cv.querySelector(".cv-close").addEventListener("click", () => cv.close());
+  cv.addEventListener("click", (e) => { if (e.target === cv) cv.close(); });
+  cv.addEventListener("close", () => {
+    if (location.hash === "#curriculo") history.replaceState(null, "", location.pathname);
+  });
+  if (location.hash === "#curriculo") openCv();
+
+  ["contextmenu", "dragstart", "selectstart"].forEach((ev) =>
+    cv.addEventListener(ev, (e) => e.preventDefault())
+  );
+//bloqueador de salvar
+  document.addEventListener("keydown", (e) => {
+    if (!cv.open) return;
+    const k = e.key.toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && (k === "s" || k === "p")) e.preventDefault();
   });
 </script>
 </body>
