@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rique</title>
+<meta name="description" content="rique — links e contato">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* conceito: a tela inteira é um monitor CRT, com as cores da v1 */
+  :root {
+    --room: #000;        /* bordas escurecidas da tela */
+    --screen: #0b0b0a;      /* vidro da tela */
+    --phosphor: #cfcabe;    /* texto principal, off-white quente */
+    --dim: #6b6860;         /* prompt e rótulos */
+    --faint: #2c2b28;       /* bordas */
+    --accent: #cfcabe;      /* nome, cursor e destaque */
+    --glow: rgba(207, 202, 190, .18);
+    --ghost-a: #a0606f;     /* rosa apagado (borrão) */
+    --ghost-b: #5e8f7c;     /* verde apagado (borrão) */
+    --display: "Silkscreen", ui-monospace, monospace;
+    --mono: "VT323", ui-monospace, monospace;
+    --text: "JetBrains Mono", ui-monospace, monospace;   /* fonte legível para os contatos */
+    color-scheme: dark;
+  }
+
+  html { height: 100%; background: var(--room); }
+  *:not(html) { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100%;
+    background: radial-gradient(ellipse at center, var(--screen) 55%, var(--room) 130%) fixed, var(--screen);
+    text-shadow: 0 0 6px var(--glow);   /* brilho do fósforo */
+    color: var(--phosphor);
+    font-family: var(--mono);
+    font-size: 1.45rem;
+    line-height: 1.35;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  /* ---------- a tela ---------- */
+  .crt { width: 100%; max-width: 620px; }
+
+  /* linhas de varredura sobre a tela toda */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, transparent 0 2px, rgba(0, 0, 0, .28) 2px 3px);
+  }
+
+  .session { display: flex; flex-direction: column; gap: 26px; text-align: center; }
+
+  .cmd { color: var(--dim); }
+  .cmd b { color: var(--phosphor); font-weight: 400; }
+
+  /* ---------- nome ---------- */
+  .name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(3.3rem, 16vw, 5.4rem);
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: .02em;
+    margin-top: 6px;
+    text-shadow: 2px 0 1px var(--ghost-a), -2px 0 1px var(--ghost-b);
+    animation: flicker 10ms infinite alternate;
+  }
+
+  @keyframes flicker {
+    from { text-shadow: 2px 0 var(--ghost-a), -3px 0 var(--ghost-b); }
+    to   { text-shadow: 3px .5px 3px var(--ghost-a), -2px -.5px 3px var(--ghost-b); }
+  }
+
+  .role { color: var(--dim); }
+
+  /* ---------- links ---------- */
+  .links {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .links a {
+    display: inline-block;
+    padding: 4px 14px;
+    border: 1px solid var(--faint);
+    color: var(--phosphor);
+    text-decoration: none;
+    transition: background .12s, color .12s;
+  }
+  .links a::before { content: "./"; color: var(--dim); }
+
+  .links a:hover,
+  .links a:focus-visible {
+    background: var(--accent);
+    color: var(--screen);
+    text-shadow: none;
+    outline: none;
+  }
+  .links a:hover::before,
+  .links a:focus-visible::before { color: var(--screen); }
+
+  /* ---------- contato ---------- */
+  .contact {
+    display: grid;
+    grid-template-columns: auto minmax(0, auto);
+    justify-content: center;
+    column-gap: 18px;
+    row-gap: 6px;
+    text-align: left;
+    font-family: var(--text);
+    font-size: .95rem;
+    line-height: 1.6;
+    margin-top: 6px;
+  }
+
+  .contact dt { color: var(--dim); text-align: right; }
+  .contact dd { min-width: 0; }
+
+  .contact a,
+  .contact button {
+    display: block;
+    max-width: 100%;
+    background: none;
+    border: 0;
+    color: var(--phosphor);
+    font: inherit;
+    text-shadow: inherit;
+    text-decoration: none;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .contact a:hover,
+  .contact button:hover,
+  .contact a:focus-visible,
+  .contact button:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    outline: none;
+  }
+
+  .hint { color: var(--dim); font-size: 1.15rem; margin-top: 4px; }
+
+  /* cursor piscando */
+  .cursor {
+    display: inline-block;
+    width: .55em;
+    height: 1em;
+    background: var(--accent);
+    vertical-align: -.12em;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .name, .cursor { animation: none; }
+  }
+
+  @media (max-width: 475px) {
+    body { font-size: 1.25rem; }
+    .contact { font-size: .82rem; }
+    .contact { column-gap: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="crt">
+  <div class="screen">
+    <main class="session">
+      <section>
+        <p class="cmd">rique@hub:~$ <b>whoami</b></p>
+        <h1 class="name">rique</h1>
+        <p class="role">infra &amp; devops</p>
+      </section>
+
+      <section>
+        <p class="cmd">rique@hub:~$ <b>ls links/</b></p>
+        <ul class="links">
+          <li><a href="https://codeberg.org/DeathHapyness" target="_blank" rel="noopener noreferrer">codeberg</a></li>
+          <li><a href="https://github.com/DeathHapyness" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="CURRICULO.pdf" target="_blank" rel="noopener noreferrer">currículo</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <p class="cmd">rique@hub:~$ <b>cat contato.txt</b></p>
+        <dl class="contact">
+          <dt>email</dt>   <dd><a href="mailto:henrique.dev2@proton.me">henrique.dev2@proton.me</a></dd>
+          <dt>email</dt>   <dd><a href="mailto:charpter2@tutamail.com">charpter2@tutamail.com</a></dd>
+          <dt>matrix</dt>  <dd><button data-copy="@Charpter3:matrix.org">@Charpter3:matrix.org</button></dd>
+          <dt>irc</dt>     <dd><button data-copy="Death">Death @ libera.chat</button></dd>
+          <dt>discord</dt> <dd><button data-copy="death_haha">death_haha</button></dd>
+        </dl>
+        <p class="hint"># clique em matrix, irc ou discord para copiar</p>
+      </section>
+
+      <p class="cmd">rique@hub:~$ <span class="cursor" aria-hidden="true"></span></p>
+    </main>
+  </div>
+</div>
+
+<script>
+  // matrix / irc / discord: clique copia o valor
+  document.querySelectorAll("[data-copy]").forEach((btn) => {
+    const original = btn.textContent;
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy);
+        btn.textContent = "copiado ✓";
+      } catch {
+        return;
+      }
+      setTimeout(() => (btn.textContent = original), 1400);
+    });
+  });
+</script>
+</body>
+</html>
