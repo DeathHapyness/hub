@@ -9,20 +9,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  /* conceito: a tela inteira é um monitor CRT, com as cores da v1 */
+ 
   :root {
-    --room: #000;        /* bordas escurecidas da tela */
-    --screen: #0b0b0a;      /* vidro da tela */
-    --phosphor: #cfcabe;    /* texto principal, off-white quente */
-    --dim: #6b6860;         /* prompt e rótulos */
-    --faint: #2c2b28;       /* bordas */
-    --accent: #cfcabe;      /* nome, cursor e destaque */
+    --room: #000;        
+    --screen: #0b0b0a;      
+    --phosphor: #cfcabe;   
+    --dim: #6b6860;         
+    --faint: #2c2b28;      
+    --accent: #cfcabe;      
     --glow: rgba(207, 202, 190, .18);
-    --ghost-a: #a0606f;     /* rosa apagado (borrão) */
-    --ghost-b: #5e8f7c;     /* verde apagado (borrão) */
+    --ghost-a: #a0606f;   
+    --ghost-b: #5e8f7c;   
     --display: "Silkscreen", ui-monospace, monospace;
     --mono: "VT323", ui-monospace, monospace;
-    --text: "JetBrains Mono", ui-monospace, monospace;   /* fonte legível para os contatos */
+    --text: "JetBrains Mono", ui-monospace, monospace;  
     color-scheme: dark;
   }
 
@@ -32,7 +32,7 @@
   body {
     min-height: 100%;
     background: radial-gradient(ellipse at center, var(--screen) 55%, var(--room) 130%) fixed, var(--screen);
-    text-shadow: 0 0 6px var(--glow);   /* brilho do fósforo */
+    text-shadow: 0 0 6px var(--glow);   
     color: var(--phosphor);
     font-family: var(--mono);
     font-size: 1.45rem;
