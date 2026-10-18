@@ -85,15 +85,14 @@
   /* ---------- links ---------- */
   .links {
     list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 10px;
     margin-top: 8px;
   }
 
   .links a {
-    display: inline-block;
+    display: block;
     padding: 4px 14px;
     border: 1px solid var(--faint);
     color: var(--phosphor);
@@ -210,13 +209,16 @@
   .cv-page canvas { display: block; width: 100%; height: auto; pointer-events: none; }
   .cv-shield { position: absolute; inset: 0; }
 
-  /* imprimir a página não imprime o currículo */
   @media print {
     body { display: none !important; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .name, .cursor { animation: none; }
+  }
+
+  @media (max-width: 600px) {
+    .links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   @media (max-width: 475px) {
@@ -241,6 +243,7 @@
         <ul class="links">
           <li><a href="https://codeberg.org/DeathHapyness" target="_blank" rel="noopener noreferrer">codeberg</a></li>
           <li><a href="https://github.com/DeathHapyness" target="_blank" rel="noopener noreferrer">github</a></li>
+          <li><a href="https://www.linkedin.com/in/henrique-barros-4751313a0/" target="_blank" rel="noopener noreferrer">linkedin</a></li>
           <li><a href="#curriculo" id="open-cv">currículo</a></li>
         </ul>
       </section>
