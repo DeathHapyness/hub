@@ -45,10 +45,9 @@
     padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
 
-  /* ---------- a tela ---------- */
+  /*  a tela  */
   .crt { width: 100%; max-width: 620px; }
 
-  /* linhas de varredura sobre a tela toda */
   body::after {
     content: "";
     position: fixed;
@@ -62,7 +61,7 @@
   .cmd { color: var(--dim); }
   .cmd b { color: var(--phosphor); font-weight: 400; }
 
-  /* ---------- nome ---------- */
+  /*  nome  */
   .name {
     font-family: var(--display);
     font-weight: 700;
@@ -82,7 +81,7 @@
 
   .role { color: var(--dim); }
 
-  /* ---------- links ---------- */
+  /*  links  */
   .links {
     list-style: none;
     display: grid;
@@ -111,7 +110,7 @@
   .links a:hover::before,
   .links a:focus-visible::before { color: var(--screen); }
 
-  /* ---------- contato ---------- */
+  /*  contato  */
   .contact {
     display: grid;
     grid-template-columns: auto minmax(0, auto);
@@ -155,7 +154,7 @@
 
   .hint { color: var(--dim); font-size: 1.15rem; margin-top: 4px; }
 
-  /* cursor piscando */
+  /* cursor  */
   .cursor {
     display: inline-block;
     width: .55em;
@@ -166,7 +165,7 @@
   }
   @keyframes blink { 50% { opacity: 0; } }
 
-  /* ---------- currículo ---------- */
+  /*  currículo  */
   .cv {
     margin: auto;
     width: min(820px, 100% - 32px);
